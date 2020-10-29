@@ -26,16 +26,15 @@ public class Player : MonoBehaviour
             _currentHealth += value;
             HealthChanged?.Invoke(_currentHealth, _health);
 
-            StartCoroutine(Transition(value));
+            SetAnimation(value);
         }
     }
 
-    private IEnumerator Transition(int value)
+    private void SetAnimation(int value)
     {
-        _animator.SetInteger("Value", value);
-
-        yield return new WaitForSeconds(.5f);
-
-        _animator.SetInteger("Value", 0);
+        if (value > 0)
+            _animator.SetTrigger("Heal");
+        else if (value < 0)
+            _animator.SetTrigger("Hurt");
     }
 }
